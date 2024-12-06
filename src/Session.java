@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 public class Session {
     /*
      * answer: word to guess
@@ -33,7 +31,10 @@ public class Session {
                 break;
             }
         }
-        attempts++;
+
+        if (!found) {
+            attempts++;
+        }
 
         // user wins
         if (String.valueOf(userAnswer).equals(answer)) {
@@ -41,7 +42,7 @@ public class Session {
         }
 
         // user looses
-        if (attempts >= maxAttempts && !found) {
+        if (attempts >= maxAttempts) {
             return new GuessResult.Defeat(userAnswer, attempts, maxAttempts, "You lost!");
         }
 
