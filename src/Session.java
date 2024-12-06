@@ -27,36 +27,35 @@ public class Session {
         boolean found = false;
 
         for (int i = 0; i < answer.length(); i++) {
-            if (answer.charAt(i) == guess) {
+            if (answer.charAt(i) == guess && userAnswer[i] == '*') {
                 userAnswer[i] = guess;
                 found = true;
+                break;
             }
         }
         attempts++;
 
-        String word = "";
-        for (char i: userAnswer) {
-            word += i;
-        }
-
+        // user wins
         if (String.valueOf(userAnswer).equals(answer)) {
             return new GuessResult.Win(userAnswer, attempts, maxAttempts, "You won!");
         }
 
-        if (!found && attempts >= maxAttempts) {
+        // user looses
+        if (attempts >= maxAttempts && !found) {
             return new GuessResult.Defeat(userAnswer, attempts, maxAttempts, "You lost!");
         }
 
+        // user guesses a letter
         if (found) {
             return new GuessResult.SuccessfulGuess(
-                    userAnswer, attempts, maxAttempts, "Hit! \n The word: " + word
+                    userAnswer, attempts, maxAttempts, "Hit!"
             );
         } else {
             return new GuessResult.FailedGuess(
                     userAnswer,
                     attempts,
                     maxAttempts,
-                    "Missed, mistake " + attempts + " out of " + maxAttempts + "The word: " + word
+                    "Missed"
             );
         }
     }
