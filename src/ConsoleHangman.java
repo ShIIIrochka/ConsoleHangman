@@ -41,6 +41,6 @@ class ConsoleHangman {
     private void printState(GuessResult guess) {
         System.out.println(guess.message());
         System.out.println("Current state: " + new String(guess.state()));
-        System.out.println("Attempts: " + guess.attempt() + "/" + guess.maxAttempts());
+        System.out.println("Mistakes: " + guess.attempt() + "/" + guess.maxAttempts() + "\n");
     }
 }
