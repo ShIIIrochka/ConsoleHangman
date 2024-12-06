@@ -18,7 +18,7 @@ public class Session {
         this.maxAttempts = maxAttempts;
         this.userAnswer = new char[answer.length()];
         for (int i = 0; i < userAnswer.length; i++) {
-            userAnswer[i] = '_';
+            userAnswer[i] = '*';
         }
         this.attempts = 0;
     }
@@ -34,6 +34,11 @@ public class Session {
         }
         attempts++;
 
+        String word = "";
+        for (char i: userAnswer) {
+            word += i;
+        }
+
         if (String.valueOf(userAnswer).equals(answer)) {
             return new GuessResult.Win(userAnswer, attempts, maxAttempts, "You won!");
         }
@@ -43,9 +48,16 @@ public class Session {
         }
 
         if (found) {
-            return new GuessResult.SuccessfulGuess(userAnswer, attempts, maxAttempts, "Hit!");
+            return new GuessResult.SuccessfulGuess(
+                    userAnswer, attempts, maxAttempts, "Hit! \n The word: " + word
+            );
         } else {
-            return new GuessResult.FailedGuess(userAnswer, attempts, maxAttempts, "Missed");
+            return new GuessResult.FailedGuess(
+                    userAnswer,
+                    attempts,
+                    maxAttempts,
+                    "Missed, mistake " + attempts + " out of " + maxAttempts + "The word: " + word
+            );
         }
     }
 
