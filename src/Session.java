@@ -25,12 +25,32 @@ public class Session {
 
 
     GuessResult guess(char guess) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Guess a letter: ");
-        String letter = scanner.nextLine();
+        boolean found = false;
+
+        for (int i = 0; i < answer.length(); i++) {
+            if (answer.charAt(i) == guess) {
+                user_answer[i] = guess;
+                found = true;
+            }
+        }
+        attempts++;
+
+        if (String.valueOf(user_answer).equals(answer)) {
+            return new GuessResult.Win(user_answer, attempts, max_attempts, "You won!");
+        }
+
+        if (!found && attempts >= max_attempts) {
+            return new GuessResult.Defeat(user_answer, attempts, max_attempts, "You lost!");
+        }
+
+        if (found) {
+            return new GuessResult.SuccessfulGuess(user_answer, attempts, max_attempts, "Hit!");
+        } else {
+            return new GuessResult.FailedGuess(user_answer, attempts, max_attempts, "Missed");
+        }
     }
 
-    GuessResult giveUp() {
-        return null;
+    public GuessResult giveUp() {
+        return new GuessResult.Defeat(user_answer, attempts, max_attempts, "You lost!");
     }
 }
